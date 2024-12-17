@@ -2,6 +2,8 @@ package edu.pmdm.monforte_danielimdbapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResult;
@@ -48,6 +50,7 @@ public class LoginActivity extends AppCompatActivity {
 
         GoogleSignInAccount gAccount=GoogleSignIn.getLastSignedInAccount(this);
         if(gAccount!=null){
+            System.out.println("a");
             finish();
             Intent intent=new Intent(LoginActivity.this,MainActivity.class);
             startActivity(intent);
@@ -63,10 +66,22 @@ public class LoginActivity extends AppCompatActivity {
                         finish();
                         Intent intent=new Intent(LoginActivity.this,MainActivity.class);
                         startActivity(intent);
+                    }catch(ApiException e){
+                        showToast("Ocurrio un error");
                     }
                 }
             }
-        })
+        });
+        binding.btnGoogle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent signInIntent=gClient.getSignInIntent();
+                activityResultLauncher.launch(signInIntent);
+            }
+        });
 
+    }
+    private void showToast(String mensaje){
+        Toast.makeText(this,mensaje,Toast.LENGTH_SHORT).show();
     }
 }
