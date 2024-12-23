@@ -78,7 +78,6 @@ public class MainActivity extends AppCompatActivity {
             Uri gPhoto= gAccount.getPhotoUrl();
             txtNombre.setText(gName);
             txtEmail.setText(gEmail);
-            System.out.println(gPhoto);
             Glide.with(this).load(gPhoto).placeholder(R.drawable.usuario).into(imgFoto);
             btnLogout.setOnClickListener(new View.OnClickListener() {
                 @Override
