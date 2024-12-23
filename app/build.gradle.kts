@@ -36,7 +36,6 @@ android {
 }
 
 dependencies {
-
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.constraintlayout)
@@ -51,4 +50,6 @@ dependencies {
     androidTestImplementation(libs.espresso.core)
     implementation (libs.gbutton)
     implementation (libs.play.services.auth)
+    implementation (libs.glide)
+    annotationProcessor (libs.compiler)
 }

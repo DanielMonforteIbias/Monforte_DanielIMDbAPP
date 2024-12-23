@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -67,14 +68,18 @@ public class MainActivity extends AppCompatActivity {
         gOptions=new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
         gClient= GoogleSignIn.getClient(this,gOptions);
         GoogleSignInAccount gAccount=GoogleSignIn.getLastSignedInAccount(this);
-
-        if(gAccount!=null){
+        if(gAccount==null){
+            Intent intentLogin=new Intent(this,LoginActivity.class);
+            startActivity(intentLogin);
+        }
+        else{
             String gName=gAccount.getDisplayName();
             String gEmail=gAccount.getEmail();
             Uri gPhoto= gAccount.getPhotoUrl();
             txtNombre.setText(gName);
             txtEmail.setText(gEmail);
-            imgFoto.setImageURI(gPhoto);
+            System.out.println(gPhoto);
+            Glide.with(this).load(gPhoto).placeholder(R.drawable.usuario).into(imgFoto);
             btnLogout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -87,10 +92,6 @@ public class MainActivity extends AppCompatActivity {
                     });
                 }
             });
-        }
-        else{
-            Intent intentLogin=new Intent(this,LoginActivity.class);
-            startActivity(intentLogin);
         }
     }
 
