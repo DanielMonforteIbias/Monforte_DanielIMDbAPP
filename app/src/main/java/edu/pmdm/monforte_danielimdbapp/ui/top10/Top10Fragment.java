@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -26,10 +27,8 @@ public class Top10Fragment extends Fragment {
     private FragmentTop10Binding binding;
     private List<Movie>topMovies=new ArrayList<Movie>();
     private MovieAdapter adaptador;
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        Top10ViewModel top10ViewModel =
-                new ViewModelProvider(this).get(Top10ViewModel.class);
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Top10ViewModel top10ViewModel = new ViewModelProvider(this).get(Top10ViewModel.class);
 
         binding = FragmentTop10Binding.inflate(inflater, container, false);
         View root = binding.getRoot();
@@ -37,14 +36,22 @@ public class Top10Fragment extends Fragment {
         RecyclerView recyclerView = binding.recyclerViewTop10;
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(),2));
         adaptador=new MovieAdapter(topMovies);
+        recyclerView.setAdapter(adaptador); //Ponemos el adaptador al RecyclerView
+        return root;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         MovieResponse.buscarTop10(new IMDBApiService() {
             @Override
             public void onMoviesReceived(List<Movie> movies) {
-                topMovies.addAll(movies);
+                topMovies.clear(); //Limpiamos la lista para que no se repitan
+                topMovies.addAll(movies); //Añadimos todas las peliculas recibidas a la lista
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        adaptador.notifyDataSetChanged();
+                        adaptador.notifyDataSetChanged(); //Notificamos al adaptador de que han cambiado los datos
                     }
                 });
             }
@@ -54,8 +61,6 @@ public class Top10Fragment extends Fragment {
 
             }
         });
-        recyclerView.setAdapter(adaptador);
-        return root;
     }
 
     @Override

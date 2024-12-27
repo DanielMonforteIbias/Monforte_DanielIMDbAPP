@@ -68,32 +68,25 @@ public class MainActivity extends AppCompatActivity {
         gOptions=new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
         gClient= GoogleSignIn.getClient(this,gOptions);
         GoogleSignInAccount gAccount=GoogleSignIn.getLastSignedInAccount(this);
-        if(gAccount==null){
-            Intent intentLogin=new Intent(this,LoginActivity.class);
-            startActivity(intentLogin);
-        }
-        else{
-            String gName=gAccount.getDisplayName();
-            String gEmail=gAccount.getEmail();
-            Uri gPhoto= gAccount.getPhotoUrl();
-            txtNombre.setText(gName);
-            txtEmail.setText(gEmail);
-            Glide.with(this).load(gPhoto).placeholder(R.drawable.usuario).into(imgFoto);
-            btnLogout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    gClient.signOut().addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            finish();
-                            startActivity(new Intent(MainActivity.this, LoginActivity.class));
-                        }
-                    });
-                }
-            });
-        }
+        String gName=gAccount.getDisplayName();
+        String gEmail=gAccount.getEmail();
+        Uri gPhoto= gAccount.getPhotoUrl();
+        txtNombre.setText(gName);
+        txtEmail.setText(gEmail);
+        Glide.with(this).load(gPhoto).placeholder(R.drawable.usuario).into(imgFoto);
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                gClient.signOut().addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        finish();
+                        startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                    }
+                });
+            }
+        });
     }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

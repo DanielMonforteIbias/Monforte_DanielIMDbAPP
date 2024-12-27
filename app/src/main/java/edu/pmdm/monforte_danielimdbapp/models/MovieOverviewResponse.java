@@ -14,9 +14,13 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class MovieOverviewResponse {
+    /**
+     * Método que usa el endpoint get-overview para obtener la descripcion de una pelicula dado su id
+     * @param id el id de la pelicula a buscar
+     * @param service la interfaz que tiene el metodo a ejecutar al obtener la descripcion
+     */
     public static void obtenerDescripcion(String id, IMDBApiService service){
         OkHttpClient client = new OkHttpClient();
-
         Request request = new Request.Builder()
                 .url("https://imdb-com.p.rapidapi.com/title/get-overview?tconst="+id)
                 .get()
@@ -33,11 +37,11 @@ public class MovieOverviewResponse {
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful()) {
                     try {
-                        String jsonResponse = response.body().string();
+                        String jsonResponse = response.body().string(); //Obtenemos el JSON de la API en un String
                         JSONObject jsonObject = new JSONObject(jsonResponse);
-                        String description = jsonObject.getJSONObject("data").getJSONObject("title").getJSONObject("plot").getJSONObject("plotText").getString("plainText");
+                        String description = jsonObject.getJSONObject("data").getJSONObject("title").getJSONObject("plot").getJSONObject("plotText").getString("plainText"); //Obtenemos el texto del plot
                         if(service!=null){
-                            service.onDescriptionReceived(description);
+                            service.onDescriptionReceived(description); //Ejecutamos el metodo de onDescriptionReceived de la interfaz recibida como parametro cuando hayamos obtenido la descripcion
                         }
                     } catch (JSONException e) {
                         throw new RuntimeException(e);

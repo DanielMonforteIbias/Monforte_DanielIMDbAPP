@@ -29,8 +29,9 @@ public class MovieDetailsActivity extends AppCompatActivity {
             return insets;
         });
         Intent intent=getIntent();
-        Movie pelicula=intent.getParcelableExtra("Movie");
-        Glide.with(this).load(pelicula.getPortada()).into(binding.imgPortadaDetalles);
+        Movie pelicula=intent.getParcelableExtra("Movie"); //Obtenemos la pelicula del intent que invoco esta actividad
+        //Ponemos los datos de la pelicula en la interfaz
+        Glide.with(this).load(pelicula.getPortada()).into(binding.imgPortadaDetalles); //Con Glide pasamos el String de la portada a imagen
         binding.txtTituloDetalles.setText(pelicula.getTitulo());
         binding.txtFechaDetalles.setText("Release date: "+pelicula.getFecha());
         binding.txtRatingDetalles.setText("Rating: "+pelicula.getRating());

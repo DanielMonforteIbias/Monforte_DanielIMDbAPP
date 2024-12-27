@@ -50,7 +50,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder>{
     public void onBindViewHolder(@NonNull MovieAdapter.ViewHolder holder, int position) {
         Movie pelicula=movies.get(position);
         Context contexto=holder.itemView.getContext();
-        Glide.with(contexto).load(pelicula.getPortada()).into(holder.portada);
+        Glide.with(contexto).load(pelicula.getPortada()).into(holder.portada); //Usamos Glide para convertir el String de la portada a imagen
         //En lugar de cargar todas las descripciones, cargamos la descripcion aqui solo para la pelicula en la que hagamos click, no para todas para no sobrecargar la API con peticiones (el limite es 5 por segundo y se ralentizaria mucho de todas formas)
         holder.portada.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,10 +64,10 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder>{
 
                     @Override
                     public void onDescriptionReceived(String descripcion) {
-                        pelicula.setDescripcion(descripcion);
-                        Intent intent=new Intent(holder.itemView.getContext(), MovieDetailsActivity.class);
-                        intent.putExtra("Movie",pelicula);
-                        contexto.startActivity(intent);
+                        pelicula.setDescripcion(descripcion); //Le damos a la pelicula pulsada la descripcion que hemos obtenido de la API
+                        Intent intent=new Intent(holder.itemView.getContext(), MovieDetailsActivity.class); //Creamos un Intent de la actividad de edetalles
+                        intent.putExtra("Movie",pelicula); //Pasamos la pelicula en el intent
+                        contexto.startActivity(intent); //Iniciamos la actividad de detalles
                     }
                 });
             }
