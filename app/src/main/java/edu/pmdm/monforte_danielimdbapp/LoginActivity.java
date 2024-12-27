@@ -47,14 +47,8 @@ public class LoginActivity extends AppCompatActivity {
         auth=FirebaseAuth.getInstance();
         gOptions= new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
         gClient= GoogleSignIn.getClient(this,gOptions);
-
         GoogleSignInAccount gAccount=GoogleSignIn.getLastSignedInAccount(this);
-        if(gAccount!=null){
-            System.out.println("a");
-            finish();
-            Intent intent=new Intent(LoginActivity.this,MainActivity.class);
-            startActivity(intent);
-        }
+
         ActivityResultLauncher<Intent>activityResultLauncher=registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
             @Override
             public void onActivityResult(ActivityResult result) {

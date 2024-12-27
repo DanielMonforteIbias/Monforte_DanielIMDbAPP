@@ -15,8 +15,11 @@
         android:theme="@style/Theme.Monforte_DanielIMDbAPP"
         tools:targetApi="31">
         <activity
+            android:name=".MovieDetailsActivity"
+            android:exported="false" />
+        <activity
             android:name=".SplashActivity"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -30,8 +33,7 @@
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:theme="@style/Theme.Monforte_DanielIMDbAPP.NoActionBar">
-        </activity>
+            android:theme="@style/Theme.Monforte_DanielIMDbAPP.NoActionBar"></activity>
     </application>
 
 </manifest>

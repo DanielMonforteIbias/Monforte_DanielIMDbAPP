@@ -52,4 +52,6 @@ dependencies {
     implementation (libs.play.services.auth)
     implementation (libs.glide)
     annotationProcessor (libs.compiler)
+    implementation (libs.okhttp)
+    implementation (libs.gson)
 }

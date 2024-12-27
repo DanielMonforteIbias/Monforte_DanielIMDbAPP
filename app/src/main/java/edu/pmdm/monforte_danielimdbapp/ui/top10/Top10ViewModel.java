@@ -1,14 +1,14 @@
-package edu.pmdm.monforte_danielimdbapp.ui.home;
+package edu.pmdm.monforte_danielimdbapp.ui.top10;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class HomeViewModel extends ViewModel {
+public class Top10ViewModel extends ViewModel {
 
     private final MutableLiveData<String> mText;
 
-    public HomeViewModel() {
+    public Top10ViewModel() {
         mText = new MutableLiveData<>();
         mText.setValue("This is home fragment");
     }
