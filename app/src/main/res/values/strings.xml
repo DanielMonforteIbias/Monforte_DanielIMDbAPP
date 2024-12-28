@@ -11,4 +11,6 @@
     <string name="menu_top10">Top 10</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
+
+    <string name="enviar_por_sms">ENVIAR POR SMS</string>
 </resources>
