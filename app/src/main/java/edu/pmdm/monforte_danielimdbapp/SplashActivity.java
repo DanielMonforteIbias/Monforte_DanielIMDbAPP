@@ -2,6 +2,7 @@ package edu.pmdm.monforte_danielimdbapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,17 +19,17 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 public class SplashActivity extends AppCompatActivity {
     boolean sesionIniciada=false;
     private GoogleSignIn GoogleSignIn;
+    private Intent intent;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         sesionIniciada= checkLoginStatus(); //COmprobamos si hay sesion iniciada
         if (sesionIniciada) { //Si hay sesion iniciada, iremos a la pantalla principal
-            Intent mainIntent = new Intent(this, MainActivity.class);
-            startActivity(mainIntent);
+            intent = new Intent(this, MainActivity.class);
         } else { //Si no, iremos a la pantalla de Login
-            Intent loginIntent = new Intent(this, LoginActivity.class);
-            startActivity(loginIntent);
+            intent = new Intent(this, LoginActivity.class);
         }
+        startActivity(intent);
         finish();
     }
 
