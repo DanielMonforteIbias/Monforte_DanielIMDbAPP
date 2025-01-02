@@ -30,6 +30,7 @@ public class Movie implements Parcelable {
         this.portada = portada;
         this.fecha = fecha;
         this.rating = 0;
+        descripcion="";
     }
 
     public Movie() {
@@ -123,5 +124,17 @@ public class Movie implements Parcelable {
         dest.writeString(fecha);
         dest.writeInt(rating);
         dest.writeString(descripcion);
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "id='" + id + '\'' +
+                ", titulo='" + titulo + '\'' +
+                ", portada='" + portada + '\'' +
+                ", fecha='" + fecha + '\'' +
+                ", rating=" + rating +
+                ", descripcion='" + descripcion + '\'' +
+                '}';
     }
 }

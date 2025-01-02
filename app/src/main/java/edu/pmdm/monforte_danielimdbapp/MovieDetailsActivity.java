@@ -24,7 +24,6 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.bumptech.glide.Glide;
 
-import edu.pmdm.monforte_danielimdbapp.databinding.ActivityMainBinding;
 import edu.pmdm.monforte_danielimdbapp.databinding.ActivityMovieDetailsBinding;
 import edu.pmdm.monforte_danielimdbapp.models.Movie;
 
@@ -44,7 +43,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         binding = ActivityMovieDetailsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.mainDetails), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
