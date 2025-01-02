@@ -24,6 +24,13 @@ public class Movie implements Parcelable {
         this.fecha = fecha;
         this.rating = rating;
     }
+    public Movie(String id, String titulo, String portada,String fecha) {
+        this.id=id;
+        this.titulo = titulo;
+        this.portada = portada;
+        this.fecha = fecha;
+        this.rating = 0;
+    }
 
     public Movie() {
         id = "";

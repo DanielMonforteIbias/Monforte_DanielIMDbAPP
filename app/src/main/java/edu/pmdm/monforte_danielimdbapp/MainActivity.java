@@ -1,10 +1,11 @@
 package edu.pmdm.monforte_danielimdbapp;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
 import android.widget.Button;
@@ -18,7 +19,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.NonNull;
@@ -28,8 +28,6 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
-
-import java.io.IOException;
 
 import edu.pmdm.monforte_danielimdbapp.databinding.ActivityMainBinding;
 
@@ -57,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         View headerView=navigationView.getHeaderView(0);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
-        mAppBarConfiguration = new AppBarConfiguration.Builder(R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow).setOpenableLayout(drawer).build();
+        mAppBarConfiguration = new AppBarConfiguration.Builder(R.id.nav_top10, R.id.nav_favorites, R.id.nav_slideshow).setOpenableLayout(drawer).build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
@@ -95,9 +93,35 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id=item.getItemId(); //Obtenemos el id del item pulsado
+        if(id==R.id.action_credits){ //Si el item pulsado es el de creditos
+            mostrarCreditos(); //Mostramos el dialogo de creditos
+        }
+        else if (id==R.id.action_settings){ //Si el item pulsado es el de opciones
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public boolean onSupportNavigateUp() {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    public void mostrarCreditos(){
+        AlertDialog.Builder dialogo = new AlertDialog.Builder(this); //Inicializamos el dialogo
+        dialogo.setCancelable(false); //Establecemos que no es cancelable para que no se pueda cerrar al pulsar en otro lado
+        dialogo.setTitle("Créditos"); //Ponemos el título como "Créditos"
+        String instruccionesMensaje="Aplicación hecha por Daniel Monforte Ibias\n\nDAM2 2024/25"; //Creamos el mensaje
+        dialogo.setMessage(instruccionesMensaje); //Establecemos el mensaje del diálogo
+        dialogo.setPositiveButton("OK", new DialogInterface.OnClickListener() { //Ponemos un botón para cerrarlo
+            public void onClick(DialogInterface dialog, int id) {
+
+            }
+        });
+        dialogo.show(); //Mostramos el diálogo
     }
 }
