@@ -35,7 +35,7 @@ public class Top10Fragment extends Fragment {
 
         RecyclerView recyclerView = binding.recyclerViewTop10;
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(),2));
-        adaptador=new MovieAdapter(topMovies);
+        adaptador=new MovieAdapter(topMovies,this);
         recyclerView.setAdapter(adaptador); //Ponemos el adaptador al RecyclerView
         return root;
     }
