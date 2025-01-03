@@ -18,4 +18,6 @@
     <string name="ingrese_año">Ingrese el año</string>
     <string name="buscar">BUSCAR</string>
     <string name="año_vacio">El año no puede estar vacío</string>
+    <string name="lista_favoritos_vacia">La lista de favoritos está vacía</string>
+    <string name="buscando_generos">Buscando géneros...</string>
 </resources>

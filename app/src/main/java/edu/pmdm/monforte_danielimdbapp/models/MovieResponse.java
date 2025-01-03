@@ -1,11 +1,6 @@
 package edu.pmdm.monforte_danielimdbapp.models;
 
-import android.util.Log;
-
-import com.google.gson.Gson;
-
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import edu.pmdm.monforte_danielimdbapp.api.IMDBApiService;
@@ -17,7 +12,7 @@ import okhttp3.Response;
 
 public class MovieResponse {
     /**
-     * Método que usa el endpoint get-top-meter para obtener una lista de peliculas y series mas populares
+     * Método que usa el endpoint get-top-meter de IMDBApi para obtener una lista de peliculas y series mas populares
      * @param service la interfaz que tiene el metodo a ejecutar tras obtener la lista
      */
     public static void buscarTop10(IMDBApiService service){
@@ -40,7 +35,7 @@ public class MovieResponse {
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful()) {
                     String datos = response.body().string(); //Obtenemos el JSON en un String
-                    List<Movie>movies=MovieExtractor.extractMovies(datos); //Extraemos los datos del JSON recibido con el metodo de MovieExtractor
+                    List<Movie>movies= JSONExtractor.extractMovies(datos); //Extraemos los datos del JSON recibido con el metodo de MovieExtractor
                     if(service!=null){
                         service.onMoviesReceived(movies); //Ejecutamos el metodo que procesa la lista de peliculas creada a partir de los datos del JSON
                     }

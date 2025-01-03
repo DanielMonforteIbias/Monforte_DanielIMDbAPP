@@ -26,6 +26,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.pmdm.monforte_danielimdbapp.R;
 import edu.pmdm.monforte_danielimdbapp.adapters.MovieAdapter;
 import edu.pmdm.monforte_danielimdbapp.database.FavoritesDatabaseHelper;
 import edu.pmdm.monforte_danielimdbapp.databinding.FragmentFavoritasBinding;
@@ -63,17 +64,7 @@ public class FavoritesFragment extends Fragment {
                     Toast.makeText(getContext(),"Permisos de Bluetooth denegados!",Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    iniciarBluetooth();
-                    AlertDialog.Builder dialogo = new AlertDialog.Builder(getContext()); //Inicializamos el dialogo
-                    dialogo.setCancelable(false); //Establecemos que no es cancelable para que no se pueda cerrar al pulsar en otro lado
-                    dialogo.setTitle("Películas favoritas en JSON"); //Ponemos el título
-                    dialogo.setMessage(favoriteMovies.toString()); //Establecemos el mensaje del diálogo
-                    dialogo.setPositiveButton("OK", new DialogInterface.OnClickListener() { //Ponemos un botón para cerrarlo
-                        public void onClick(DialogInterface dialog, int id) {
-
-                        }
-                    });
-                    dialogo.show(); //Mostramos el diálogo
+                    compartirListaFavoritos();
                 }
             }
         });
@@ -85,6 +76,24 @@ public class FavoritesFragment extends Fragment {
         binding = null;
     }
 
+    private void compartirListaFavoritos(){
+        iniciarBluetooth();
+        if(favoriteMovies.size()==0){ //Si la lista está vacía
+            Toast.makeText(getContext(), R.string.lista_favoritos_vacia,Toast.LENGTH_SHORT).show(); //Avisamos al usuario
+        }
+        else{ //Si la lista tiene contenido, mostraremos un dialogo con la lista en formato JSON
+            AlertDialog.Builder dialogo = new AlertDialog.Builder(getContext()); //Inicializamos el dialogo
+            dialogo.setCancelable(false); //Establecemos que no es cancelable para que no se pueda cerrar al pulsar en otro lado
+            dialogo.setTitle("Películas favoritas en JSON"); //Ponemos el título
+            dialogo.setMessage(favoriteMovies.toString()); //Establecemos el mensaje del diálogo
+            dialogo.setPositiveButton("OK", new DialogInterface.OnClickListener() { //Ponemos un botón para cerrarlo
+                public void onClick(DialogInterface dialog, int id) {
+
+                }
+            });
+            dialogo.show(); //Mostramos el diálogo
+        }
+    }
     private void iniciarBluetooth(){
         BluetoothAdapter btAdapter= BluetoothAdapter.getDefaultAdapter();
         if(btAdapter==null){
