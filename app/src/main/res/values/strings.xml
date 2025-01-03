@@ -11,8 +11,11 @@
 
     <string name="menu_top10">Top 10</string>
     <string name="menu_favoritas">Favoritas</string>
-    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_slideshow">Buscar Película</string>
 
     <string name="enviar_por_sms">ENVIAR POR SMS</string>
     <string name="compartir">COMPARTIR</string>
+    <string name="ingrese_año">Ingrese el año</string>
+    <string name="buscar">BUSCAR</string>
+    <string name="año_vacio">El año no puede estar vacío</string>
 </resources>
