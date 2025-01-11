@@ -60,7 +60,7 @@ public class Top10Fragment extends Fragment {
             public void onDescriptionReceived(String descripcion) {
 
             }
-        });
+        },getContext());
     }
 
     @Override

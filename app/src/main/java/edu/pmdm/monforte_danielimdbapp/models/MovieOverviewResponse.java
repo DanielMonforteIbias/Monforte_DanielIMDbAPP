@@ -24,7 +24,7 @@ public class MovieOverviewResponse {
         Request request = new Request.Builder()
                 .url("https://imdb-com.p.rapidapi.com/title/get-overview?tconst="+id)
                 .get()
-                .addHeader("x-rapidapi-key", "f94b3a9b75mshf98573499366620p15aecejsndd002043f0ce")
+                .addHeader("x-rapidapi-key", "8bd8c55e73msh0e1794c9dba568cp141c78jsnd5d9db2ae48a")
                 .addHeader("x-rapidapi-host", "imdb-com.p.rapidapi.com")
                 .build();
         client.newCall(request).enqueue(new Callback() {

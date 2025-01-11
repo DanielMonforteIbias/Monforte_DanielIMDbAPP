@@ -1,9 +1,15 @@
 package edu.pmdm.monforte_danielimdbapp.models;
 
+import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
+import android.widget.Toast;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.pmdm.monforte_danielimdbapp.R;
 import edu.pmdm.monforte_danielimdbapp.api.IMDBApiService;
 import edu.pmdm.monforte_danielimdbapp.api.TMDBApiService;
 import okhttp3.Call;
@@ -17,7 +23,7 @@ public class MovieSearchResponse {
      * Método que usa el endpoint Movie List de genres para obtener una lista de generos de peliculas
      * @param service la interfaz que tiene el metodo a ejecutar tras obtener la lista de generos
      */
-    public static void buscarGeneros(TMDBApiService service){
+    public static void buscarGeneros(TMDBApiService service, Context context){
         OkHttpClient client = new OkHttpClient();
 
         Request request = new Request.Builder()
@@ -29,7 +35,7 @@ public class MovieSearchResponse {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                System.out.println("Error en la solicitud: " + e.getMessage());
+                if(context!=null) new Handler(Looper.getMainLooper()).post(() -> Toast.makeText(context, R.string.error_solicitud_api, Toast.LENGTH_SHORT).show());
             }
 
             @Override
@@ -41,13 +47,13 @@ public class MovieSearchResponse {
                         service.onGenresReceived(genres); //Ejecutamos el metodo que procesa la lista de generos creada a partir de los datos del JSON
                     }
                 } else {
-                    System.out.println("Error en la respuesta: " + response.code()+response.message());
+                    if(context!=null) new Handler(Looper.getMainLooper()).post(() -> Toast.makeText(context, R.string.error_respuesta_api, Toast.LENGTH_SHORT).show());
                 }
             }
         });
     }
 
-    public static void buscarPeliculasPorAñoYGenero(String year, String genre, TMDBApiService service){
+    public static void buscarPeliculasPorAñoYGenero(String year, String genre, TMDBApiService service,Context context){
         OkHttpClient client = new OkHttpClient();
 
         Request request = new Request.Builder()
@@ -60,7 +66,7 @@ public class MovieSearchResponse {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                System.out.println("Error en la solicitud: " + e.getMessage());
+                if(context!=null) new Handler(Looper.getMainLooper()).post(() -> Toast.makeText(context, R.string.error_solicitud_api, Toast.LENGTH_SHORT).show());
             }
 
             @Override
@@ -72,7 +78,7 @@ public class MovieSearchResponse {
                         service.onMoviesReceived(movies);
                     }
                 } else {
-                    System.out.println("Error en la respuesta: " + response.code()+response.message());
+                    if(context!=null) new Handler(Looper.getMainLooper()).post(() -> Toast.makeText(context, R.string.error_respuesta_api, Toast.LENGTH_SHORT).show());
                 }
             }
         });

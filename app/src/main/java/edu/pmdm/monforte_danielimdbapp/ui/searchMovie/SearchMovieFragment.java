@@ -64,7 +64,7 @@ public class SearchMovieFragment extends Fragment {
                 public void onMoviesReceived(List<Movie> movies) {
 
                 }
-            });
+            },getContext());
         }
         adaptador.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         binding.spinnerGenero.setAdapter(adaptador);
@@ -97,7 +97,7 @@ public class SearchMovieFragment extends Fragment {
                                 }
                             });
                         }
-                    });
+                    },getContext());
                 }
             }
         });
