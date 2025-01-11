@@ -47,7 +47,9 @@ public class MovieOverviewResponse {
                         throw new RuntimeException(e);
                     }
                 } else {
-                    System.out.println("Error en la respuesta de detalles: " + response.code());
+                    if(service!=null){
+                        service.onDescriptionReceived("(No description found)");
+                    }
                 }
             }
         });

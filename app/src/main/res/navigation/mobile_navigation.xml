@@ -19,7 +19,7 @@
 
     <fragment
         android:id="@+id/nav_slideshow"
-        android:name="edu.pmdm.monforte_danielimdbapp.ui.slideshow.SlideshowFragment"
+        android:name="edu.pmdm.monforte_danielimdbapp.ui.searchMovie.SearchMovieFragment"
         android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        tools:layout="@layout/fragment_search_movie" />
 </navigation>

@@ -1,14 +1,14 @@
-package edu.pmdm.monforte_danielimdbapp.ui.slideshow;
+package edu.pmdm.monforte_danielimdbapp.ui.searchMovie;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class SlideshowViewModel extends ViewModel {
+public class SearchMovieViewModel extends ViewModel {
 
     private final MutableLiveData<String> mText;
 
-    public SlideshowViewModel() {
+    public SearchMovieViewModel() {
         mText = new MutableLiveData<>();
         mText.setValue("This is slideshow fragment");
     }
