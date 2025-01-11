@@ -1,4 +1,5 @@
 <resources>
+    <string name="default_web_client_id">491604704118-bs3kfagaaukihglsqmhp591eff3rk29i.apps.googleusercontent.com</string>
     <string name="app_name">Monforte_DanielIMDbAPP</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -24,4 +25,5 @@
 
     <string name="error_solicitud_api">Error en la solicitud a la API</string>
     <string name="error_respuesta_api">Error en la respuesta de la API</string>
+    <string name="error_inicio_sesion">Error en el inicio de sesión</string>
 </resources>

@@ -20,6 +20,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import androidx.annotation.NonNull;
 import androidx.navigation.NavController;
@@ -68,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
         GoogleSignInAccount gAccount=GoogleSignIn.getLastSignedInAccount(this);
         String gName=gAccount.getDisplayName();
         String gEmail=gAccount.getEmail();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         Uri gPhoto= gAccount.getPhotoUrl();
         txtNombre.setText(gName);
         txtEmail.setText(gEmail);
@@ -78,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
                 gClient.signOut().addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
+                        FirebaseAuth.getInstance().signOut();
                         finish();
                         startActivity(new Intent(MainActivity.this, LoginActivity.class));
                     }

@@ -40,8 +40,8 @@ public class FavoritesDatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS FAVORITES");
-        db.execSQL("DROP TABLE IF EXISTS MOVIES");
+        if (oldVersion < 2) db.execSQL("ALTER TABLE " + FAVORITES_TABLE_NAME + " ADD COLUMN insertionTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP");
+        if (oldVersion < 3) db.execSQL("ALTER TABLE " + MOVIES_TABLE_NAME + " ADD COLUMN movieDate TEXT DEFAULT ''");
         onCreate(db);
     }
 

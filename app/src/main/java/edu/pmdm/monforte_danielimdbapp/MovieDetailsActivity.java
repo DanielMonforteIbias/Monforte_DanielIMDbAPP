@@ -54,7 +54,8 @@ public class MovieDetailsActivity extends AppCompatActivity {
         Glide.with(this).load(pelicula.getPortada()).into(binding.imgPortadaDetalles); //Con Glide pasamos el String de la portada a imagen
         binding.txtTituloDetalles.setText(pelicula.getTitulo());
         binding.txtFechaDetalles.setText("Release date: "+pelicula.getFecha());
-        binding.txtRatingDetalles.setText("Rating: "+pelicula.getRating());
+        if (pelicula.getRating()==0) binding.txtRatingDetalles.setText("(No rating available)");
+        else binding.txtRatingDetalles.setText("Rating: "+pelicula.getRating());
         binding.txtDescripcionDetalles.setText(pelicula.getDescripcion());
         //OnClick del boton de enviar por SMS
         binding.btnEnviarSms.setOnClickListener(new View.OnClickListener() {
