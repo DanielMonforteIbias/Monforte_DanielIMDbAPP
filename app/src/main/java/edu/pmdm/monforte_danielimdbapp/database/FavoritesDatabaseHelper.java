@@ -1,5 +1,6 @@
 package edu.pmdm.monforte_danielimdbapp.database;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -22,6 +23,8 @@ public class FavoritesDatabaseHelper extends SQLiteOpenHelper {
     //Version 3: Added movieDate column to MOVIES
     private static int databaseVersion=3;
 
+    private ContentValues values; //This variable is used to insert and delete in the database
+
     public FavoritesDatabaseHelper(Context context) {
         super(context, DATABASE_NAME,null,databaseVersion);
         database=getWritableDatabase();
@@ -43,14 +46,32 @@ public class FavoritesDatabaseHelper extends SQLiteOpenHelper {
     }
 
     public void addMovie(Movie movie){
-        database.execSQL("INSERT INTO "+MOVIES_TABLE_NAME+" VALUES('"+movie.getId()+"','"+movie.getTitulo()+"','"+movie.getPortada()+"','"+movie.getFecha()+"')");
+        values = new ContentValues();
+        values.put("movieId", movie.getId());
+        values.put("movieTitle", movie.getTitulo());
+        values.put("movieImage", movie.getPortada());
+        values.put("movieDate", movie.getFecha());
+        database.insert(MOVIES_TABLE_NAME,null,values);
     }
     public void addFavorite(String userId, String movieId){
-        database.execSQL("INSERT INTO "+FAVORITES_TABLE_NAME+"(userId,movieId) VALUES('"+userId+"','"+movieId+"')");
+        values = new ContentValues();
+        values.put("userId", userId);
+        values.put("movieId", movieId);
+        database.insert(FAVORITES_TABLE_NAME,null,values);
     }
     public void removeFavorite(String userId, String movieId){
-        database.execSQL("DELETE FROM "+FAVORITES_TABLE_NAME+" WHERE userId LIKE '"+userId+"' AND movieId LIKE '"+movieId+"'");
+        String condition = "userId = ? AND movieId = ?";
+        String conditionArgs[] = { userId, movieId };
+        database.delete(FAVORITES_TABLE_NAME, condition,conditionArgs);
     }
+
+    /*
+    All of the previous methods about inserting and deleting used to use the execSQL method
+    For example: database.execSQL("INSERT INTO "+MOVIES_TABLE_NAME+" VALUES('"+movie.getId()+"','"+movie.getTitulo()+"','"+movie.getPortada()+"','"+movie.getFecha()+"')");
+    This, apart from being less intuitive, had a problem: if the movie's title had a ' symbol, the statement would think that the title ended there and this would break the SQL syntax
+    Using ContentValues and its methods to insert and delete we can avoid this
+     */
+
 
     public boolean movieExists(String movieId){
         Cursor cursor = database.rawQuery("SELECT COUNT(*) FROM " + MOVIES_TABLE_NAME + " WHERE movieId = ?", new String[]{movieId});

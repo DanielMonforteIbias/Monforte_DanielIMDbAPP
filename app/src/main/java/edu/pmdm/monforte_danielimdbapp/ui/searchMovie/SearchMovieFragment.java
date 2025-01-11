@@ -1,5 +1,6 @@
 package edu.pmdm.monforte_danielimdbapp.ui.searchMovie;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.pmdm.monforte_danielimdbapp.MovieListActivity;
 import edu.pmdm.monforte_danielimdbapp.R;
 import edu.pmdm.monforte_danielimdbapp.adapters.MovieAdapter;
 import edu.pmdm.monforte_danielimdbapp.api.TMDBApiService;
@@ -27,9 +29,7 @@ import edu.pmdm.monforte_danielimdbapp.models.MovieSearchResponse;
 public class SearchMovieFragment extends Fragment {
 
     private FragmentSearchMovieBinding binding;
-    private MovieAdapter moviesAdapter;
     private static List<Genre> genres =new ArrayList<Genre>(); //Se hace estática porque no va a cambiar, siempre será la misma. Así solo llamamos a la API la primera vez, y si cambiamos de fragmento al volver se mantendrán los géneros y no habrá que obtenerlos otra vez
-    private List<Movie> moviesSearch =new ArrayList<Movie>();
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         SearchMovieViewModel searchMovieViewModel = new ViewModelProvider(this).get(SearchMovieViewModel.class);
@@ -80,30 +80,13 @@ public class SearchMovieFragment extends Fragment {
                 }
                 if(valid){
                     Genre selectedGenre=(Genre)binding.spinnerGenero.getSelectedItem();
-                    MovieSearchResponse.buscarPeliculasPorAñoYGenero(year, selectedGenre.getId(), new TMDBApiService() {
-                        @Override
-                        public void onGenresReceived(List<Genre> genres) {
-
-                        }
-
-                        @Override
-                        public void onMoviesReceived(List<Movie> movies) {
-                            moviesSearch.clear();
-                            moviesSearch.addAll(movies);
-                            getActivity().runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    moviesAdapter.notifyDataSetChanged(); //Notificamos al adaptador de que han cambiado los datos
-                                }
-                            });
-                        }
-                    },getContext());
+                    Intent intent=new Intent(getContext(),MovieListActivity.class);
+                    intent.putExtra("Year",year);
+                    intent.putExtra("GenreId",selectedGenre.getId());
+                    startActivity(intent);
                 }
             }
         });
-        moviesAdapter=new MovieAdapter(moviesSearch,this);
-        binding.recyclerViewMovies.setLayoutManager(new GridLayoutManager(getContext(),2));
-        binding.recyclerViewMovies.setAdapter(moviesAdapter);
     }
 
     @Override
