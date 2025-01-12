@@ -14,7 +14,7 @@ public class Movie implements Parcelable {
     private String titulo;
     private String portada;
     private String fecha;
-    private int rating;
+    private int rating; //A pesar de llamarse rating, es el puesto que ocupan en el ranking
     private String descripcion;
 
     public Movie(String id, String titulo, String portada, String fecha, int rating) {
