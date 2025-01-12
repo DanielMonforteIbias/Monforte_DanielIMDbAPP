@@ -27,6 +27,7 @@ public class MovieOverviewResponse {
                 .addHeader("x-rapidapi-key", "8bd8c55e73msh0e1794c9dba568cp141c78jsnd5d9db2ae48a")
                 .addHeader("x-rapidapi-host", "imdb-com.p.rapidapi.com")
                 .build();
+        //Si se necesita cambiar la key, ir a MovieResponse para ver algunas disponibles
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -38,8 +39,8 @@ public class MovieOverviewResponse {
                 if (response.isSuccessful()) {
                     try {
                         String jsonResponse = response.body().string(); //Obtenemos el JSON de la API en un String
-                        JSONObject jsonObject = new JSONObject(jsonResponse);
-                        String description = jsonObject.getJSONObject("data").getJSONObject("title").getJSONObject("plot").getJSONObject("plotText").getString("plainText"); //Obtenemos el texto del plot
+                        JSONObject jsonObject = new JSONObject(jsonResponse); //Obtenemos un JSONObject del String recibido
+                        String description = jsonObject.getJSONObject("data").getJSONObject("title").getJSONObject("plot").getJSONObject("plotText").getString("plainText"); //Obtenemos el texto del plot navegando por los JSONObject
                         if(service!=null){
                             service.onDescriptionReceived(description); //Ejecutamos el metodo de onDescriptionReceived de la interfaz recibida como parametro cuando hayamos obtenido la descripcion
                         }

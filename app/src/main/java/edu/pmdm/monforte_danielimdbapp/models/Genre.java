@@ -1,8 +1,8 @@
 package edu.pmdm.monforte_danielimdbapp.models;
 
 public class Genre {
-    private String id;
-    private String name;
+    private String id; //Id del género, usado para trabajar con la API de TMDB filtrando las películas por su género
+    private String name; //Nombre del género, usado para mostrar al usuario los diferentes géneros que hay
 
     public Genre(String id,String name) {
         this.id = id;
@@ -27,6 +27,6 @@ public class Genre {
 
     @Override
     public String toString() {
-        return name;
+        return name; //Al imprimir un género, imprimiremos su nombre
     }
 }

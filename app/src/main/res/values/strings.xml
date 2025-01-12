@@ -1,10 +1,10 @@
 <resources>
-    <string name="default_web_client_id">491604704118-bs3kfagaaukihglsqmhp591eff3rk29i.apps.googleusercontent.com</string>
+    <string name="default_web_client_id" translatable="false">491604704118-bs3kfagaaukihglsqmhp591eff3rk29i.apps.googleusercontent.com</string>
     <string name="app_name">Monforte_DanielIMDbAPP</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_title" translatable="false">Android Studio</string>
+    <string name="nav_header_subtitle" translatable="false">android.studio@android.com</string>
     <string name="logout_button">LOGOUT</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
@@ -26,4 +26,5 @@
     <string name="error_solicitud_api">Error en la solicitud a la API</string>
     <string name="error_respuesta_api">Error en la respuesta de la API</string>
     <string name="error_inicio_sesion">Error en el inicio de sesión</string>
+    <string name="error_inicio_sesion_api">Error de la API al iniciar sesion</string>
 </resources>
