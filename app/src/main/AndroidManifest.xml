@@ -17,6 +17,7 @@
         android:maxSdkVersion="30" />
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
     <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
+    <!--No se incluye BLUETOOTH_ADVERTISE ya que sirve para que nuestra app haga que el dispositivo se anuncie a otros dispositivos bluetooth, y eso no es parte de la funcionalidad de compartir lista-->
 
     <application
         android:allowBackup="true"

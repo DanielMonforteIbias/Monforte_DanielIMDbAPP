@@ -101,8 +101,6 @@ public class FavoritesFragment extends Fragment {
     private void pedirPermisosBluetooth(){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.BLUETOOTH_CONNECT,Manifest.permission.BLUETOOTH_SCAN}, BLUETOOTH);
-        } else {
-            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.BLUETOOTH}, BLUETOOTH);
         }
     }
 
