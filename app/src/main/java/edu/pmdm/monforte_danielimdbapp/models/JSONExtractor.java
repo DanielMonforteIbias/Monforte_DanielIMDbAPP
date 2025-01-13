@@ -30,7 +30,7 @@ public class JSONExtractor {
                 String title = node.getJSONObject("titleText").getString("text");
                 String fecha = node.getJSONObject("releaseDate").getInt("year")+"-"+node.getJSONObject("releaseDate").getInt("month")+"-"+node.getJSONObject("releaseDate").getInt("day");
                 String imageUrl = node.getJSONObject("primaryImage").getString("url");
-                int rating = node.getJSONObject("meterRanking").getInt("currentRank");
+                double rating = node.getJSONObject("meterRanking").getDouble("currentRank");
                 Movie movie = new Movie(id,title, imageUrl, fecha,rating); //Construimos una pelicula con los datos obtenidos
                 movieList.add(movie); //Añadimos la pelicula a la lista
             }
@@ -82,7 +82,8 @@ public class JSONExtractor {
                 String movieTitle=movieJson.getString("original_title");
                 String movieImage="https://image.tmdb.org/t/p/w500"+movieJson.getString("poster_path"); //La API solo da la ruta relativa, asi que lo concatenamos con el resto de la URL para que sea correcta
                 String movieReleaseDate=movieJson.getString("release_date");
-                moviesList.add(new Movie(movieId,movieTitle,movieImage,movieReleaseDate)); //Creamos un objeto movie con los datos leidos y lo añadimos a la lista
+                double movieRating=movieJson.getDouble("vote_average");
+                moviesList.add(new Movie(movieId,movieTitle,movieImage,movieReleaseDate,movieRating)); //Creamos un objeto movie con los datos leidos y lo añadimos a la lista
             }
         } catch (Exception e) {
             e.printStackTrace();

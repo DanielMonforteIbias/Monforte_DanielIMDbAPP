@@ -21,7 +21,8 @@ public class FavoritesDatabaseHelper extends SQLiteOpenHelper {
     //Version 1: MOVIES(id,title,image) FAVORITES(userId,movieId)
     //Version 2: Añade la columna insertionTime a FAVORITES
     //Version 3: Añade la columna movieDate a MOVIES
-    private static int databaseVersion=3; //Version actual de la base de datos
+    //Version 4: Añade la columna movieRating a MOVIES
+    private static int databaseVersion=4; //Version actual de la base de datos
 
     private ContentValues values; //Variable usada para el contenido de las inserciones
 
@@ -33,7 +34,7 @@ public class FavoritesDatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         //Query para crear la tabla de peliculas
-        String createTableMovies="CREATE TABLE "+MOVIES_TABLE_NAME+" (movieId TEXT PRIMARY KEY, movieTitle TEXT NOT NULL, movieImage TEXT, movieDate TEXT)";
+        String createTableMovies="CREATE TABLE "+MOVIES_TABLE_NAME+" (movieId TEXT PRIMARY KEY, movieTitle TEXT NOT NULL, movieImage TEXT, movieDate TEXT, movieRating REAL)";
         db.execSQL(createTableMovies);
         //Query para crear la tabla de favoritos
         String createTableFavorites="CREATE TABLE "+FAVORITES_TABLE_NAME+" (userId TEXT NOT NULL, movieId TEXT NOT NULL, insertionTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,PRIMARY KEY(userId, movieId), FOREIGN KEY(movieId) REFERENCES MOVIES(movieId))";
@@ -44,6 +45,7 @@ public class FavoritesDatabaseHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         if (oldVersion < 2) db.execSQL("ALTER TABLE " + FAVORITES_TABLE_NAME + " ADD COLUMN insertionTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP"); //Si antes estabamos debajo de la version 2, añadimos la columna insertionTime a FAVORITES
         if (oldVersion < 3) db.execSQL("ALTER TABLE " + MOVIES_TABLE_NAME + " ADD COLUMN movieDate TEXT DEFAULT ''"); //Si antes estabamos debajo de la version 3, añadimos la columna movieDate a MOVIES
+        if(oldVersion<4)db.execSQL("ALTER TABLE " + MOVIES_TABLE_NAME + " ADD COLUMN movieRating REAL DEFAULT 0"); //Si antes estabamos debajo de la version 4, añadimos la columna movieRating a MOVIES
     }
 
     /**
@@ -57,7 +59,18 @@ public class FavoritesDatabaseHelper extends SQLiteOpenHelper {
         values.put("movieTitle", movie.getTitulo());
         values.put("movieImage", movie.getPortada());
         values.put("movieDate", movie.getFecha());
+        values.put("movieRating",movie.getRating());
         database.insert(MOVIES_TABLE_NAME,null,values); //Insertamos en la tabla MOVIES los valores que hemos definido
+    }
+
+    /**
+     * Método que borra una película de la tabla MOVIES
+     * @param movieId id de la película a borrar
+     */
+    public void removeMovie(String movieId){
+        String condition = "movieId = ?"; //Condicion para el borrado
+        String conditionArgs[] = {movieId}; //Ponemos los parámetros recibidos en los ? de la condicion anterior
+        database.delete(MOVIES_TABLE_NAME, condition,conditionArgs);
     }
 
     /**
@@ -125,6 +138,22 @@ public class FavoritesDatabaseHelper extends SQLiteOpenHelper {
     }
 
     /**
+     * Método que comprueba si una película recibida es favorita de algún usuario
+     * @param movieId //El id de la película a comprobar
+     * @return true si la película es favorita de un usuario, false si no
+     */
+    public boolean movieExistsInFavorite(String movieId){
+        Cursor cursor = database.rawQuery("SELECT COUNT(*) FROM " + FAVORITES_TABLE_NAME + " WHERE movieId=?", new String[]{movieId}); //Creamos una query con un contador y ponemos el id de la película en la condicion
+        boolean isFavorite = false; //Declaramos la variable isFavorite y la inicializamos a false. Esta variable será la que devolvamos al final
+        if(cursor.moveToFirst()) { //Si hay resultado en la consulta
+            int count=cursor.getInt(0); //Obtenemos el primer dato que hay (solo habrá uno ya que es un count)
+            if(count>0)isFavorite=true; //Si el valor es mayor que 0, es que hay un registro que une al usuario con la pelicula, por lo que es favorita y ponemos la variable a true
+        }
+        cursor.close(); //Cerramos el cursor
+        return isFavorite; //Devolvemos si es favorita o no
+    }
+
+    /**
      * Método que obtiene una lista de películas que sean las favoritas de un usuario recibido
      * @param userId el id del usuario del que se quiere obtener la lista de favoritas
      * @return la lista de peliculas favoritas del usuario, una lista con objetos de tipo Movie
@@ -132,14 +161,15 @@ public class FavoritesDatabaseHelper extends SQLiteOpenHelper {
     public List<Movie> getUserFavorites(String userId) {
         List<Movie> favorites = new ArrayList<>(); //Creamos e inicializamos la lista que devolveremos
         //Creamos una consulta que obtiene los datos de una película haciendo join por el id de la película con FAVORITES, usando el id de usuario recibido en el where y ordenandola por tiempo de insercion (las que se hayan añadido antes irán primero)
-        Cursor cursor = database.rawQuery("SELECT M.movieId, M.movieTitle, M.movieImage, M.movieDate FROM " +MOVIES_TABLE_NAME+" M JOIN "+FAVORITES_TABLE_NAME+" F ON M.movieId=F.movieId WHERE userID LIKE ? ORDER BY F.insertionTime ASC",new String[]{userId});
+        Cursor cursor = database.rawQuery("SELECT M.movieId, M.movieTitle, M.movieImage, M.movieDate, M.movieRating FROM " +MOVIES_TABLE_NAME+" M JOIN "+FAVORITES_TABLE_NAME+" F ON M.movieId=F.movieId WHERE userID LIKE ? ORDER BY F.insertionTime ASC",new String[]{userId});
         while (cursor.moveToNext()) { //Recorremos el cursor
             //Obtenemos los datos de la película por el índice de columna
             String movieId = cursor.getString(0);
             String movieTitle = cursor.getString(1);
             String movieImage = cursor.getString(2);
             String movieDate = cursor.getString(3);
-            favorites.add(new Movie(movieId, movieTitle,movieImage,movieDate)); //Añadimos una nueva película con los datos obtenidos a la lista de favoritos
+            double movieRating=cursor.getDouble(4);
+            favorites.add(new Movie(movieId, movieTitle,movieImage,movieDate,movieRating)); //Añadimos una nueva película con los datos obtenidos a la lista de favoritos
         }
         cursor.close(); //Cerramos el cursor
         return favorites; //Devolvemos la lista

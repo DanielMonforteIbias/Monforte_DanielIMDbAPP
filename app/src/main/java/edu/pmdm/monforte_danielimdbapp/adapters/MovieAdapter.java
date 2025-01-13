@@ -94,13 +94,15 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder>{
                 String userId=GoogleSignIn.getLastSignedInAccount(context).getId(); //Obtenemos el id de la cuenta de Google
                 if(!dbHelper.movieExists(pelicula.getId()))dbHelper.addMovie(pelicula); //Si la pelicula no existe en la base de datos, la añadimos
                 if(dbHelper.movieIsFavorite(userId, pelicula.getId())){ //Si la pelicula ya es favorita del usuario
-                    dbHelper.removeFavorite(userId, pelicula.getId()); //La eliminamos de sus favoritos
-                    Toast.makeText(context,pelicula.getTitulo()+" eliminada de favoritos",Toast.LENGTH_SHORT).show(); //Mostramos un Toast informando al usuario
-                    if(fragment instanceof FavoritesFragment){ //Si la eliminacion ha sido desde el fragmento de la lista de favoritos
+                    if(fragment instanceof FavoritesFragment){ //Si estamos en el fragmento de Favoritas
+                        dbHelper.removeFavorite(userId, pelicula.getId()); //La eliminamos de sus favoritos
+                        if(!dbHelper.movieExistsInFavorite(pelicula.getId())) dbHelper.removeMovie(pelicula.getId()); //Si  ya no es favorita de ningun usuario, tambien la borramos de la tabla MOVIES
+                        Toast.makeText(context,pelicula.getTitulo()+" eliminada de favoritos",Toast.LENGTH_SHORT).show(); //Mostramos un Toast informando al usuario
                         movies.remove(holder.getAdapterPosition()); //La eliminamos de la lista del adaptador
                         notifyItemRemoved(holder.getAdapterPosition()); //Notificamos al adaptador
                         //Esto sirve para que se borre no solo de la base de datos, sino tambien de la lista en tiempo real
                     }
+                    else Toast.makeText(context,pelicula.getTitulo()+" ya está en Favoritos",Toast.LENGTH_SHORT).show(); //Si no, decimos al usuario que ya está en favoritos
                 }
                 else{ //Si no es favorita del usuario
                     dbHelper.addFavorite(userId,pelicula.getId()); //La añadimos a sus favoritos

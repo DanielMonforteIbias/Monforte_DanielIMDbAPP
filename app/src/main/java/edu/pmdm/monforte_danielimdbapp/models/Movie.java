@@ -14,10 +14,10 @@ public class Movie implements Parcelable {
     private String titulo;
     private String portada;
     private String fecha;
-    private int rating; //A pesar de llamarse rating, es el puesto que ocupan en el ranking
+    private double rating; //A pesar de llamarse rating, es el puesto que ocupan en el ranking
     private String descripcion;
 
-    public Movie(String id, String titulo, String portada, String fecha, int rating) {
+    public Movie(String id, String titulo, String portada, String fecha, double rating) {
         this.id=id;
         this.titulo = titulo;
         this.portada = portada;
@@ -47,7 +47,7 @@ public class Movie implements Parcelable {
         titulo = in.readString();
         portada = in.readString();
         fecha = in.readString();
-        rating = in.readInt();
+        rating = in.readDouble();
         descripcion = in.readString();
     }
 
@@ -95,11 +95,11 @@ public class Movie implements Parcelable {
         this.fecha = fecha;
     }
 
-    public int getRating() {
+    public double getRating() {
         return rating;
     }
 
-    public void setRating(int rating) {
+    public void setRating(double rating) {
         this.rating = rating;
     }
 
@@ -122,7 +122,7 @@ public class Movie implements Parcelable {
         dest.writeString(titulo);
         dest.writeString(portada);
         dest.writeString(fecha);
-        dest.writeInt(rating);
+        dest.writeDouble(rating);
         dest.writeString(descripcion);
     }
 
